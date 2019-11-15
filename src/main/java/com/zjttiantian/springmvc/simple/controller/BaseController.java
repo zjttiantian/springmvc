@@ -47,11 +47,4 @@ public class BaseController {
         return "OK";
     }
 
-    @RequestMapping(value = "/index",produces = {"application/json;charset=UTF-8"})
-    @ResponseBody
-    public String index(@RequestBody TestBean tb){
-        log.info("对象==>",tb);
-        return "OK";
-    }
-
 }

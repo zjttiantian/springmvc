@@ -7,7 +7,7 @@
   <display-name>springmvc</display-name>
   <context-param>
     <param-name>contextConfigLocation</param-name>
-    <param-value>classpath*:springmvc.xml</param-value>
+    <param-value>classpath*:springmvc*.xml</param-value>
   </context-param>
 
   <listener>

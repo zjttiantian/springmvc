@@ -5,15 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
-public abstract class BaseService<T> {
+public interface BaseService<T> {
 
-    public abstract BaseMapper getMapper();
+    public T findById(Object id) ;
 
-    public T findById(Object id) {
-        return (T)getMapper().selectByPrimaryKey(id);
-    }
-
-    public List<T> findAll() {
-        return getMapper().selectAll();
-    }
+    public List<T> findAll() ;
 }

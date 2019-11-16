@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zjttiantian.springmvc.simple.mapper.TestMapper">
+  <resultMap id="BaseResultMap" type="com.zjttiantian.springmvc.simple.bean.TestBean" extends="com.zjttiantian.springmvc.simple.mapper.BaseMapper.ResultMap">
+    <result column="val" jdbcType="VARCHAR" property="value" />
+  </resultMap>
+
+  <!--start 自定义设置-->
+
+  <!--end 自定义设置-->
+
+
+  <!--通用设置-->
+  <sql id="Base_Table">
+    `test`
+  </sql>
+
+  <sql id="Base_Column_List">
+    val
+  </sql>
+
+  <sql id="Insert_Selective_Column">
+    <if test="value != null">
+      val,
+    </if>
+  </sql>
+
+  <sql id="Insert_Selective_Value">
+    <if test="value != null">
+      #{val,jdbcType=VARCHAR},
+    </if>
+  </sql>
+
+  <sql id="Update_Selective">
+    <if test="value != null">
+      val=#{value,jdbcType=VARCHAR},
+    </if>
+  </sql>
+
+  <sql id="Column_List_Base">
+    id, create_time, create_user_id, update_time, update_user_id, `status`, comments
+  </sql>
+
+
+  <sql id="Insert_Selective_Column_Base">
+    create_time,
+    <if test="updateUserId != null">
+      create_user_id,
+    </if>
+    update_time,
+    <if test="updateUserId != null">
+      update_user_id,
+    </if>
+    <if test="status != null">
+      `status`,
+    </if>
+    <if test="comments != null">
+      comments,
+    </if>
+  </sql>
+
+  <sql id="Insert_Selective_Value_Base">
+    now(),
+    <if test="updateUserId != null">
+      #{updateUserId,jdbcType=BIGINT},
+    </if>
+    now(),
+    <if test="updateUserId != null">
+      #{updateUserId,jdbcType=BIGINT},
+    </if>
+    <if test="status != null">
+      #{status,jdbcType=BIGINT},
+    </if>
+    <if test="comments != null">
+      #{comments,jdbcType=VARCHAR},
+    </if>
+  </sql>
+
+  <sql id="Update_Selective_Base">
+    update_time = now(),
+    <if test="updateUserId != null">
+      update_user_id = #{updateUserId,jdbcType=BIGINT},
+    </if>
+    <if test="status != null">
+      `status` = #{status,jdbcType=BIGINT},
+    </if>
+    <if test="comments != null">
+      comments = #{comments,jdbcType=VARCHAR},
+    </if>
+  </sql>
+
+  <sql id="Update_Status">
+    `status`=#{status},
+    update_time = now(),
+    <if test="userId != null">
+      update_user_id = #{userId},
+    </if>
+  </sql>
+
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select
+    <include refid="Column_List_Base" />,<include refid="Base_Column_List" />
+    from <include refid="Base_Table" />
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+
+  <select id="selectAll" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select
+    <include refid="Column_List_Base" />,<include refid="Base_Column_List" />
+    from <include refid="Base_Table" />
+  </select>
+
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.zjttiantian.springmvc.simple.bean.TestBean" useGeneratedKeys="true">
+    insert into <include refid="Base_Table" />
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <include refid="Insert_Selective_Column_Base" />
+      <include refid="Insert_Selective_Column" />
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <include refid="Insert_Selective_Value_Base" />
+      <include refid="Insert_Selective_Value" />
+    </trim>
+  </insert>
+
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.zjttiantian.springmvc.simple.bean.TestBean">
+    update <include refid="Base_Table" />
+    <set>
+      <include refid="Update_Selective_Base"/>
+      <include refid="Update_Selective"/>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from <include refid="Base_Table" />
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+
+  <update id="updateStatus" parameterType="java.lang.Long">
+    update <include refid="Base_Table" />
+    <set>
+      <include refid="Update_Status"/>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <select id="count" resultType="java.lang.Integer">
+    select count(1) from <include refid="Base_Table" />
+  </select>
+
+
+  <!--自定义方法-->
+
+</mapper>

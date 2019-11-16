@@ -1,6 +1,7 @@
 package com.zjttiantian.springmvc.simple.controller;
 
 import com.zjttiantian.springmvc.simple.TestBean;
+import com.zjttiantian.springmvc.simple.service.TestService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,14 +15,16 @@ import javax.servlet.http.HttpSession;
 @Controller
 @RequestMapping("/base")
 public class BaseController {
+    private final static Logger log=LoggerFactory.getLogger(BaseController.class);
+
     @Autowired
     protected HttpServletRequest request;
     @Autowired
     protected HttpServletResponse response;
     @Autowired
     protected HttpSession session;
-
-    private final static Logger log=LoggerFactory.getLogger(BaseController.class);
+    @Autowired
+    protected TestService testService;
     @ModelAttribute
     public void beforeController(){
         log.info(request.getRequestURI());
